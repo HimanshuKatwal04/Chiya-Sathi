@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jholey Doctor — झोले डॉक्टर</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f1f14;min-height:100vh;color:#1a1a1a;overflow-x:hidden}
+
+    /* ─── SCREENS ─────────────────────────────────────────────────────── */
+    .screen{position:fixed;inset:0;z-index:10;transition:opacity 0.45s ease,transform 0.45s ease;overflow-y:auto}
+    .screen.hidden{opacity:0;pointer-events:none;transform:translateY(20px);display:none}
+
+    /* ─── PAGE 1 — Language ───────────────────────────────────────────── */
+    #pg1{background:url('/static/tea_workers.jpg') center/cover no-repeat;display:flex;align-items:center;justify-content:center;padding:24px}
+    #pg1::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,30,15,0.45),rgba(10,30,15,0.93))}
+    .ls-inner{position:relative;width:100%;max-width:400px;text-align:center}
+    .ls-logo{font-size:3.5rem;margin-bottom:6px}
+    .ls-title{color:#fff;font-size:1.9rem;font-weight:800;letter-spacing:1px}
+    .ls-sub{color:#a7f3d0;font-size:0.88rem;margin-top:4px;margin-bottom:30px}
+    .lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+    .lang-opt{background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:16px;padding:18px 10px;cursor:pointer;transition:all 0.2s;text-align:center}
+    .lang-opt:hover,.lang-opt.sel{background:rgba(110,231,183,0.2);border-color:#6ee7b7;transform:translateY(-2px)}
+    .lang-opt .lf{font-size:1.7rem;display:block;margin-bottom:5px}
+    .lang-opt .ln{color:#fff;font-size:1.15rem;font-weight:700;display:block}
+    .lang-opt .le{color:#a7f3d0;font-size:0.75rem;margin-top:2px;display:block}
+    .ls-btn{width:100%;padding:15px;background:linear-gradient(135deg,#1b4332,#166534);color:white;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;transition:opacity 0.2s;opacity:0.45;pointer-events:none}
+    .ls-btn.on{opacity:1;pointer-events:auto}
+    .ls-btn.on:hover{opacity:0.9}
+
+    /* ─── PAGE 2 — Input ──────────────────────────────────────────────── */
+    #pg2{background:url('/static/hills.jpg') center/cover fixed no-repeat;display:flex;flex-direction:column;overflow-y:auto}
+    #pg2::before{content:'';position:fixed;inset:0;background:rgba(10,25,15,0.82);pointer-events:none;z-index:0}
+    .pg2-content{position:relative;z-index:1;max-width:680px;margin:0 auto;width:100%;padding-bottom:40px}
+
+    /* hero */
+    .hero{width:100%;height:180px;position:relative;border-radius:0 0 22px 22px;overflow:hidden}
+    .hero img{width:100%;height:100%;object-fit:cover;object-position:center 40%}
+    .hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,30,15,0.15),rgba(10,30,15,0.78))}
+    .hero-text{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:16px 24px;display:flex;align-items:flex-end;justify-content:space-between}
+    .hero-text h1{color:#fff;font-size:1.6rem;font-weight:800;text-shadow:0 2px 8px rgba(0,0,0,0.4)}
+    .hero-text p{color:#a7f3d0;font-size:0.8rem;margin-top:2px}
+    .lang-chip{background:rgba(110,231,183,0.25);border:1px solid #6ee7b7;border-radius:20px;padding:4px 12px;color:#a7f3d0;font-size:0.78rem;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0}
+    .lang-chip:hover{background:rgba(110,231,183,0.4)}
+
+    /* card */
+    .card{background:rgba(255,255,255,0.97);border-radius:20px;margin:18px 14px;box-shadow:0 8px 40px rgba(0,0,0,0.35)}
+    .card-strip{height:6px;background:linear-gradient(90deg,#1b4332,#4ade80,#ca8a04);border-radius:20px 20px 0 0}
+    .card-inner{padding:24px}
+    .sec-label{font-size:0.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin:18px 0 8px}
+    .sec-label:first-child{margin-top:0}
+    label{display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:5px;margin-top:12px}
+    label:first-child{margin-top:0}
+    input,select,textarea{width:100%;padding:10px 13px;border:1.5px solid #d1d5db;border-radius:10px;font-size:0.95rem;font-family:inherit;background:#f9fafb;transition:border-color 0.2s,background 0.2s;height:44px;box-sizing:border-box}
+    textarea{height:auto;resize:vertical;min-height:90px}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:#1b4332;background:#fff}
+    .row{display:flex;gap:10px}
+    .row>div{flex:1}
+
+    /* mic */
+    .sym-wrap{position:relative}
+    .mic-btn{position:absolute;right:10px;bottom:10px;background:none;border:none;cursor:pointer;font-size:1.4rem;padding:4px;border-radius:50%;transition:background 0.2s;line-height:1}
+    .mic-btn:hover{background:#f0fdf4}
+    .mic-btn:disabled{opacity:0.4;cursor:not-allowed}
+    .mic-btn.recording{color:#dc2626}
+    .mic-btn.recording::before{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid #dc2626;animation:micring 1s ease-out infinite}
+    @keyframes micring{0%{transform:scale(1);opacity:1}100%{transform:scale(1.8);opacity:0}}
+    .mic-btn.transcribing{color:#6b7280}
+    .mic-spinner{display:inline-block;width:13px;height:13px;border:2px solid #d1d5db;border-top-color:#1b4332;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:4px}
+    .mic-status{font-size:0.74rem;color:#6b7280;margin-top:4px;min-height:18px;display:flex;align-items:center;gap:5px}
+    .lang-badge{display:inline-block;background:#dcfce7;color:#14532d;border:1px solid #86efac;border-radius:12px;padding:2px 8px;font-size:0.7rem;font-weight:600;margin-left:4px;vertical-align:middle}
+
+    /* upload */
+    .upload-area{border:2px dashed #86efac;border-radius:12px;padding:20px;text-align:center;cursor:pointer;background:#f0fdf4;position:relative;transition:border-color 0.2s,background 0.2s}
+    .upload-area:hover{border-color:#1b4332;background:#dcfce7}
+    .upload-area input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;border:none;padding:0}
+    .upload-area .icon{font-size:1.8rem}
+    .upload-area p{font-size:0.8rem;color:#6b7280;margin-top:5px}
+    #preview-wrap{margin-top:10px;display:none}
+    #preview-wrap img{max-height:160px;border-radius:10px;border:1px solid #d1d5db}
+
+    /* agent toggle */
+    .agent-toggle{display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 14px;background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;cursor:pointer}
+    .agent-toggle input[type=checkbox]{width:18px;height:18px;accent-color:#1b4332;cursor:pointer;flex-shrink:0}
+    .agent-toggle-label{font-size:0.85rem;color:#1b4332;font-weight:600;cursor:pointer;line-height:1.4}
+    .agent-toggle-label small{display:block;font-weight:400;color:#6b7280;font-size:0.75rem;margin-top:2px}
+
+    /* submit */
+    .btn-primary{width:100%;margin-top:18px;padding:15px;background:linear-gradient(135deg,#1b4332,#166534);color:white;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity 0.2s;letter-spacing:0.3px}
+    .btn-primary:hover{opacity:0.9}
+    .btn-primary:disabled{opacity:0.5;cursor:not-allowed}
+    .btn-danger{width:100%;padding:14px;background:linear-gradient(135deg,#dc2626,#991b1b);color:white;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity 0.2s}
+    .btn-danger:hover{opacity:0.9}
+    .btn-danger:disabled{opacity:0.5;cursor:not-allowed}
+    .spinner{display:none;width:22px;height:22px;border:3px solid rgba(255,255,255,0.35);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* analysing overlay on pg2 */
+    #analysingOverlay{position:fixed;inset:0;z-index:50;background:rgba(10,25,15,0.92);display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px}
+    #analysingOverlay.show{display:flex}
+    .an-spinner{width:52px;height:52px;border:4px solid rgba(110,231,183,0.25);border-top-color:#6ee7b7;border-radius:50%;animation:spin 0.9s linear infinite}
+    .an-title{color:#6ee7b7;font-size:1.2rem;font-weight:700}
+    .an-msg{color:#9ca3af;font-size:0.85rem;text-align:center;max-width:260px;line-height:1.5}
+    .an-timer{color:#6b7280;font-size:0.78rem}
+
+    /* ─── PAGE 3 — Results ────────────────────────────────────────────── */
+    #pg3{background:url('/static/hills.jpg') center/cover fixed no-repeat;display:flex;flex-direction:column;overflow-y:auto}
+    #pg3::before{content:'';position:fixed;inset:0;background:rgba(10,25,15,0.82);pointer-events:none;z-index:0}
+    .pg3-content{position:relative;z-index:1;max-width:680px;margin:0 auto;width:100%;padding-bottom:40px}
+    .pg3-header{display:flex;align-items:center;gap:12px;padding:16px 14px 0}
+    .back-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#a7f3d0;border-radius:10px;padding:8px 14px;font-size:0.85rem;cursor:pointer;font-weight:600;transition:background 0.2s}
+    .back-btn:hover{background:rgba(255,255,255,0.2)}
+    .pg3-title{color:#fff;font-size:1rem;font-weight:700}
+
+    /* result card */
+    .triage-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:24px;font-weight:800;font-size:1rem;letter-spacing:0.5px;margin-bottom:14px}
+    .GREEN{background:#dcfce7;color:#14532d;border:1.5px solid #86efac}
+    .YELLOW{background:#fef9c3;color:#713f12;border:1.5px solid #fde047}
+    .RED{background:#fee2e2;color:#7f1d1d;border:1.5px solid #fca5a5}
+    .result-section{margin-bottom:13px}
+    .result-section h3{font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;color:#9ca3af;margin-bottom:5px;font-weight:700}
+    .result-section p{font-size:0.93rem;color:#1f2937;line-height:1.6}
+    .pill-list{display:flex;flex-wrap:wrap;gap:6px}
+    .pill{background:#f3f4f6;border:1px solid #e5e7eb;border-radius:20px;padding:4px 12px;font-size:0.8rem;color:#374151}
+    .pill.danger{background:#fee2e2;border-color:#fca5a5;color:#991b1b}
+    .pill.action{background:#eff6ff;border-color:#bfdbfe;color:#1e40af}
+    .referral-box{background:#fff7ed;border:1.5px solid #fed7aa;border-radius:12px;padding:12px 15px;font-size:0.88rem;color:#9a3412}
+    .error-box{background:#fee2e2;border:1px solid #fca5a5;border-radius:12px;padding:12px 15px;font-size:0.86rem;color:#991b1b}
+    .clarify-box{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:12px 15px;font-size:0.88rem;color:#1e3a5f}
+    .divider{border:none;border-top:1px solid #f3f4f6;margin:14px 0}
+    .upgraded-badge{display:inline-block;background:#fef9c3;color:#713f12;border:1px solid #fde047;border-radius:8px;padding:3px 10px;font-size:0.73rem;font-weight:600;margin-bottom:8px}
+    .speak-btn{background:none;border:1.5px solid #1b4332;color:#1b4332;border-radius:8px;padding:6px 16px;font-size:0.8rem;cursor:pointer;margin-top:8px;transition:background 0.2s;font-weight:600}
+    .speak-btn:hover{background:#f0fdf4}
+    #audioPlayer{width:100%;margin-top:10px;display:none}
+
+    /* agent reply on pg3 */
+    #agentReplySection{display:none;margin-top:14px}
+
+    /* ─── PIN screen ──────────────────────────────────────────────────── */
+    #pinScreen{position:fixed;inset:0;z-index:1000;background:url('/static/hills.jpg') center/cover;display:none;align-items:center;justify-content:center}
+    #pinScreen::before{content:'';position:absolute;inset:0;background:rgba(10,25,15,0.88)}
+    .pin-card{position:relative;background:white;border-radius:20px;padding:36px 32px;width:320px;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.4)}
+    .pin-card h2{color:#1b4332;font-size:1.4rem;margin-bottom:6px}
+    .pin-card p{color:#6b7280;font-size:0.85rem;margin-bottom:20px}
+    .pin-input{width:100%;padding:12px;font-size:1.2rem;letter-spacing:4px;text-align:center;border:2px solid #d1d5db;border-radius:10px;margin-bottom:14px}
+    .pin-input:focus{outline:none;border-color:#1b4332}
+    .pin-error{color:#dc2626;font-size:0.82rem;margin-top:8px;min-height:18px}
+
+
+
+    /* offline banner */
+    #offlineBanner{display:none;background:#fef9c3;border-bottom:2px solid #fde047;padding:8px 16px;text-align:center;font-size:0.8rem;color:#713f12;position:relative;z-index:2}
+
+    .footer-strip{position:relative;z-index:1;text-align:center;padding:18px;color:rgba(255,255,255,0.3);font-size:0.72rem}
+
+    /* ── Loading screen ── */
+    #loadingScreen{position:fixed;inset:0;z-index:9999;background:url('/static/hills.jpg') center/cover no-repeat;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.6s ease}
+    #loadingScreen::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,30,15,0.55),rgba(10,30,15,0.88))}
+    .load-inner{position:relative;text-align:center}
+    .load-logo{font-size:4rem;margin-bottom:10px;animation:pulse 1.6s ease-in-out infinite}
+    .load-title{color:#fff;font-size:2rem;font-weight:700;letter-spacing:2px}
+    .load-sub{color:#a7f3d0;font-size:1rem;margin-top:6px;letter-spacing:1px}
+    .load-bar{width:220px;height:3px;background:rgba(255,255,255,0.15);border-radius:4px;margin:28px auto 0;overflow:hidden}
+    .load-fill{height:100%;background:#6ee7b7;border-radius:4px;animation:loadbar 2s ease-in-out forwards}
+    @keyframes loadbar{from{width:0}to{width:100%}}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+  </style>
+</head>
+<body>
+
+<!-- Loading screen -->
+<div id="loadingScreen">
+  <div class="load-inner">
+    <div class="load-logo">&#x1F9BA;</div>
+    <div class="load-title">Jholey Doctor</div>
+    <div class="load-sub">&#x091D;&#x094B;&#x0932;&#x0947; &#x0921;&#x0949;&#x0915;&#x094D;&#x091F;&#x0930; &mdash; AI Health Assistant</div>
+    <div class="load-bar"><div class="load-fill"></div></div>
+  </div>
+</div>
+
+<!-- ── PIN screen ─────────────────────────────────────────────────────── -->
+<div id="pinScreen">
+  <div class="pin-card">
+    <div style="font-size:2.5rem;margin-bottom:10px">🩺</div>
+    <h2>Jholey Doctor</h2>
+    <p>Enter your access PIN to continue</p>
+    <input type="password" class="pin-input" id="pinInput" placeholder="••••" maxlength="8"
+           onkeydown="if(event.key==='Enter') submitPin()"/>
+    <button class="btn-primary" style="margin-top:0" onclick="submitPin()">Enter</button>
+    <div class="pin-error" id="pinError"></div>
+  </div>
+</div>
+
+    <div class="load-title">Jholey Doctor</div>
+    <div class="load-sub">झोले डॉक्टर — AI Health Assistant</div>
+    <div class="load-bar"><div class="load-fill"></div></div>
+  </div>
+</div>
+
+<!-- ── Analysing overlay (shown on pg2 while waiting) ─────────────────── -->
+<div id="analysingOverlay">
+  <div class="an-spinner"></div>
+  <div class="an-title" id="anTitle">Analysing…</div>
+  <div class="an-msg" id="anMsg">🔍 Reading symptoms…</div>
+  <div class="an-timer" id="anTimer">0s</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- PAGE 1 — Language selection                                           -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div id="pg1" class="screen hidden" style="display:none">
+  <div class="ls-inner">
+    <div class="ls-logo">🩺</div>
+    <div class="ls-title">Jholey Doctor</div>
+    <div class="ls-sub">झोले डॉक्टर · AI Health Assistant</div>
+    <div class="lang-grid">
+      <div class="lang-opt" onclick="selectLang('hi',this)">
+        <span class="lf">🇮🇳</span>
+        <span class="ln">हिंदी</span>
+        <span class="le">Hindi</span>
+      </div>
+      <div class="lang-opt" onclick="selectLang('ne',this)">
+        <span class="lf">🇳🇵</span>
+        <span class="ln">नेपाली</span>
+        <span class="le">Nepali</span>
+      </div>
+      <div class="lang-opt" onclick="selectLang('bn',this)">
+        <span class="lf">🇧🇩</span>
+        <span class="ln">বাংলা</span>
+        <span class="le">Bengali</span>
+      </div>
+      <div class="lang-opt" onclick="selectLang('en',this)">
+        <span class="lf">🌐</span>
+        <span class="ln">English</span>
+        <span class="le">International</span>
+      </div>
+    </div>
+    <button class="ls-btn" id="lsBtn" onclick="confirmLang()">
+      Select a language to continue
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- PAGE 2 — Input                                                        -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div id="pg2" class="screen hidden" style="display:none">
+  <div id="offlineBanner">📡 Running on local network — no internet required for triage</div>
+  <div class="pg2-content">
+
+    <!-- Hero -->
+    <div class="hero">
+      <img src="/static/tea_workers.jpg" alt="Tea garden workers"/>
+      <div class="hero-text">
+        <div>
+          <h1>🩺 Jholey Doctor</h1>
+          <p id="heroSub">AI Health Assistant</p>
+        </div>
+        <div class="lang-chip" onclick="goToPage(1)" id="langChip">हिंदी ✎</div>
+      </div>
+    </div>
+
+    <!-- Input card -->
+    <div class="card">
+      <div class="card-strip"></div>
+      <div class="card-inner">
+        <form id="triageForm" enctype="multipart/form-data">
+
+          <!-- Hidden language field — set from pg1 selection -->
+          <input type="hidden" name="language" id="langHidden" value="hi"/>
+
+          <div class="sec-label">Describe the problem</div>
+          <label id="sympLabel">Symptoms <span style="font-weight:400;color:#9ca3af">(optional if photo provided)</span></label>
+          <div class="sym-wrap">
+            <textarea name="symptoms" id="symptoms" placeholder="Describe symptoms…"></textarea>
+            <button type="button" class="mic-btn" id="micBtn" title="Speak symptoms">🎙️</button>
+          </div>
+          <div class="mic-status" id="micStatus"></div>
+
+          <div class="row" style="margin-top:14px">
+            <div>
+              <label id="ageLabel">Age</label>
+              <input type="number" name="age" id="ageInput" placeholder="e.g. 28" min="0" max="120"/>
+            </div>
+            <div>
+              <label id="sexLabel">Sex</label>
+              <select name="sex" id="sexSelect">
+                <option value="">—</option>
+                <option value="F">Female / महिला</option>
+                <option value="M">Male / पुरुष</option>
+              </select>
+            </div>
+          </div>
+
+          <label id="bpLabel" style="margin-top:14px">Body Part</label>
+          <select name="body_part" id="bodyPartSelect">
+            <option value="">— Not specified —</option>
+            <option value="head">Head / सिर</option>
+            <option value="face">Face / चेहरा</option>
+            <option value="neck">Neck / गर्दन</option>
+            <option value="chest">Chest / छाती</option>
+            <option value="abdomen">Abdomen / पेट</option>
+            <option value="left arm">Left Arm</option>
+            <option value="right arm">Right Arm</option>
+            <option value="left hand">Left Hand</option>
+            <option value="right hand">Right Hand</option>
+            <option value="left leg">Left Leg</option>
+            <option value="right leg">Right Leg</option>
+            <option value="left foot">Left Foot</option>
+            <option value="right foot">Right Foot</option>
+            <option value="back">Back / पीठ</option>
+            <option value="skin/rash">Skin / Rash</option>
+          </select>
+
+          <div class="sec-label" style="margin-top:18px">Photo (optional)</div>
+          <div class="upload-area">
+            <input type="file" name="image" id="imageInput" accept="image/*"/>
+            <div class="icon">📷</div>
+            <p id="uploadLabel">Click or drag a wound / rash / skin photo here</p>
+          </div>
+          <div id="preview-wrap">
+            <img id="preview" src="" alt="preview"/>
+            <p style="font-size:0.73rem;color:#9ca3af;margin-top:4px" id="fname"></p>
+          </div>
+
+          <!-- Agent mode toggle -->
+          <label class="agent-toggle" for="agentMode">
+            <input type="checkbox" id="agentMode"/>
+            <div class="agent-toggle-label">
+              🤖 <span id="agentLabel">Agent Mode</span>
+              <small id="agentDesc">AI asks follow-up questions before triaging</small>
+            </div>
+          </label>
+
+          <button type="submit" class="btn-primary" id="submitBtn">
+            <span id="btnText">Analyse</span>
+            <div class="spinner" id="spinner"></div>
+          </button>
+
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-strip">Jholey Doctor · Powered by Gemma 4 · Built for communities that need it most</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- PAGE 3 — Results                                                      -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div id="pg3" class="screen hidden" style="display:none">
+  <div class="pg3-content">
+
+    <div class="pg3-header">
+      <button class="back-btn" onclick="goToPage(2)">← New Case</button>
+      <div class="pg3-title" id="pg3Title">Triage Result</div>
+    </div>
+
+    <!-- Main result card -->
+    <div class="card" style="margin-top:14px">
+      <div class="card-strip"></div>
+      <div class="card-inner">
+
+        <!-- Agent follow-up section (shown when agent asks a question) -->
+        <div id="agentReplySection" style="display:none">
+          <div class="sec-label">🤖 Agent is asking</div>
+          <p id="agentQuestion" style="font-size:0.93rem;color:#1f2937;margin-bottom:10px;line-height:1.5"></p>
+          <div style="display:flex;gap:8px">
+            <input type="text" id="agentReplyInput" placeholder="Type your answer…" style="flex:1"/>
+            <button type="button" class="btn-primary" onclick="sendAgentReply()" style="width:auto;margin:0;padding:10px 18px">Send</button>
+          </div>
+          <hr class="divider"/>
+        </div>
+
+        <!-- Triage result -->
+        <div id="result"></div>
+
+        <!-- Audio -->
+        <div id="audioSection" style="display:none;margin-top:8px">
+          <button class="speak-btn" onclick="speakSummary()">🔊 Read out analysis</button>
+          <audio id="audioPlayer" controls></audio>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Alert section -->
+    <div id="alertSection" style="display:none">
+      <div class="card">
+        <div class="card-strip" style="background:linear-gradient(90deg,#dc2626,#f87171)"></div>
+        <div class="card-inner">
+          <div id="redAutoAlert" style="display:none;background:#fee2e2;border:1.5px solid #fca5a5;border-radius:10px;padding:11px 13px;margin-bottom:12px;font-size:0.83rem;color:#991b1b">
+            🔴 <strong>RED triage detected.</strong> Fill patient details and send an emergency alert immediately.
+          </div>
+          <div id="yellowConfirmAlert" style="display:none;background:#fef9c3;border:1.5px solid #fde047;border-radius:10px;padding:11px 13px;margin-bottom:12px;font-size:0.83rem;color:#713f12">
+            🟡 <strong>YELLOW triage.</strong> Patient should visit a health post within 24h.
+          </div>
+          <div class="sec-label">📋 Patient Contact</div>
+          <label>Full Name / पूरा नाम</label>
+          <input type="text" id="alertName" placeholder="e.g. Ramesh Tamang"/>
+          <label>Phone / फोन</label>
+          <input type="tel" id="alertPhone" placeholder="+91 98765 43210"/>
+          <label>Address / पता</label>
+          <textarea id="alertAddress" style="min-height:56px" placeholder="Village, garden name, landmark…"></textarea>
+          <button class="btn-danger" id="alertBtn" type="button" onclick="sendAlert()" style="margin-top:12px">
+            🚨 Notify Health Authority / ASHA Worker
+          </button>
+          <p id="alertStatus" style="text-align:center;font-size:0.83rem;margin-top:8px"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Handoff report section -->
+    <div id="handoffSection" style="display:none">
+      <div class="card">
+        <div class="card-strip" style="background:linear-gradient(90deg,#1e40af,#60a5fa)"></div>
+        <div class="card-inner">
+          <div class="sec-label">📋 Case Handoff Report</div>
+          <p style="font-size:0.8rem;color:#6b7280;margin-bottom:10px">Generate a structured report for the receiving doctor at PHC/hospital.</p>
+          <label>ASHA Worker Name</label>
+          <input type="text" id="workerName" placeholder="e.g. Sunita Devi"/>
+          <button class="btn-primary" type="button" onclick="generateHandoff()" style="margin-top:12px">
+            📄 Generate Handoff Report
+          </button>
+          <div id="handoffResult" style="display:none;margin-top:12px">
+            <pre id="handoffText" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:13px;font-size:0.76rem;white-space:pre-wrap;font-family:monospace;color:#1f2937;overflow-x:auto"></pre>
+            <button class="speak-btn" style="margin-top:8px;width:100%" onclick="copyHandoff()">📋 Copy to Clipboard</button>
+            <p id="handoffCopied" style="text-align:center;font-size:0.78rem;color:#16a34a;margin-top:4px;display:none">✅ Copied!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-strip">Jholey Doctor · Powered by Gemma 4 · Built for communities that need it most</div>
+  </div>
+</div>
+
+<script>
+// ── Auth ──────────────────────────────────────────────────────────────────
+let _sessionToken = sessionStorage.getItem('jd_token') || '';
+function authHeaders(){ return _sessionToken ? {'X-Session-Token':_sessionToken} : {}; }
+async function fetchWithAuth(url, opts={}){
+  opts.headers = {...(opts.headers||{}), ...authHeaders()};
+  return fetch(url, opts);
+}
+
+// ── Language config ───────────────────────────────────────────────────────
+let _lang = ''; // always show language screen on fresh load
+const L = {
+  hi:{ native:'हिंदी', chip:'हिंदी ✎', heroSub:'AI स्वास्थ्य सहायक', sympLabel:'लक्षण बताएं', placeholder:'लक्षण बताएं… जैसे सिर दर्द, बुखार', ageLabel:'उम्र', sexLabel:'लिंग', bpLabel:'शरीर का हिस्सा', uploadLabel:'घाव / चकत्ते की फोटो यहाँ डालें', agentLabel:'एजेंट मोड', agentDesc:'AI पहले सवाल पूछेगा, फिर triage करेगा', btn:'विश्लेषण करें', analysing:'विश्लेषण हो रहा है…', pg3Title:'Triage परिणाम' },
+  ne:{ native:'नेपाली', chip:'नेपाली ✎', heroSub:'AI स्वास्थ्य सहायक', sympLabel:'लक्षण बताउनुस्', placeholder:'लक्षण बताउनुस्… जस्तै टाउको दुख्यो, ज्वरो', ageLabel:'उमेर', sexLabel:'लिंग', bpLabel:'शरीरको भाग', uploadLabel:'घाउ / छालाको फोटो यहाँ राख्नुस्', agentLabel:'एजेन्ट मोड', agentDesc:'AI पहिले प्रश्न सोध्छ, त्यसपछि triage गर्छ', btn:'विश्लेषण गर्नुस्', analysing:'विश्लेषण भईरहेको छ्…', pg3Title:'Triage नतिजा' },
+  bn:{ native:'বাংলা', chip:'বাংলা ✎', heroSub:'AI স্বাস্থ্য সহায়ক', sympLabel:'উপসর্গ বলুন', placeholder:'উপসর্গ বলুন… যেমন মাথাব্যথা, জ্বর', ageLabel:'বয়স', sexLabel:'লিঙ্গ', bpLabel:'শরীরের অংশ', uploadLabel:'ক্ষত / ফুসকুড়ির ছবি এখানে দিন', agentLabel:'এজেন্ট মোড', agentDesc:'AI প্রথমে প্রশ্ন করবে, তারপর triage করবে', btn:'বিশ্লেষণ করুন', analysing:'বিশ্লেষণ হচ্ছে…', pg3Title:'Triage ফলাফল' },
+  en:{ native:'English', chip:'English ✎', heroSub:'AI Health Assistant', sympLabel:'Symptoms', placeholder:'Describe symptoms... e.g. headache, fever since 2 days', ageLabel:'Age', sexLabel:'Sex', bpLabel:'Body Part', uploadLabel:'Click or drag a wound / rash / skin photo here', agentLabel:'Agent Mode', agentDesc:'AI asks follow-up questions before triaging', btn:'Analyse', analysing:'Analysing...', pg3Title:'Triage Result' },
+}
+
+// ── Page navigation ───────────────────────────────────────────────────────
+function goToPage(n){
+  // hide all screens
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.add('hidden');
+    s.style.display = 'none';
+  });
+  const pg = document.getElementById('pg'+n);
+  pg.style.display = 'flex';
+  pg.style.flexDirection = 'column';
+  pg.classList.remove('hidden');
+  pg.scrollTop = 0;
+}
+
+// ── Apply language labels ─────────────────────────────────────────────────
+function applyLang(code){
+
+  const l = L[code] || L.en;
+  document.getElementById('langHidden').value = code;
+  document.getElementById('langChip').textContent = l.chip;
+  document.getElementById('heroSub').textContent = l.heroSub;
+  document.getElementById('sympLabel').childNodes[0].textContent = l.sympLabel + ' ';
+  document.getElementById('symptoms').placeholder = l.placeholder;
+  document.getElementById('ageLabel').textContent = l.ageLabel;
+  document.getElementById('sexLabel').textContent = l.sexLabel;
+  document.getElementById('bpLabel').textContent = l.bpLabel;
+  document.getElementById('uploadLabel').textContent = l.uploadLabel;
+  document.getElementById('agentLabel').textContent = l.agentLabel;
+  document.getElementById('agentDesc').textContent = l.agentDesc;
+  document.getElementById('btnText').textContent = l.btn;
+  document.getElementById('pg3Title').textContent = l.pg3Title;
+  document.getElementById('anTitle').textContent = l.analysing;
+}
+
+// ── Language screen ───────────────────────────────────────────────────────
+function selectLang(code, el){
+  document.querySelectorAll('.lang-opt').forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+  _lang = code;
+  const btn = document.getElementById('lsBtn');
+  btn.classList.add('on');
+  btn.textContent = 'Continue — ' + (L[code]||L.en).native + ' →';
+}
+function confirmLang(){
+  if(!_lang) return;
+  sessionStorage.setItem('jd_lang', _lang);
+  applyLang(_lang);
+  goToPage(2);
+}
+
+// ── PIN ───────────────────────────────────────────────────────────────────
+async function checkPin(){
+  try {
+    const r = await fetch('/verify-pin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pin:''})});
+    if(r.ok){ const d=await r.json(); if(d.token){_sessionToken=d.token;sessionStorage.setItem('jd_token',d.token);} document.getElementById('pinScreen').style.display='none'; }
+    else { document.getElementById('pinScreen').style.display='flex'; }
+  } catch { document.getElementById('pinScreen').style.display='none'; }
+}
+async function submitPin(){
+  const pin = document.getElementById('pinInput').value;
+  const r = await fetch('/verify-pin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pin})});
+  if(r.ok){ const d=await r.json(); _sessionToken=d.token; sessionStorage.setItem('jd_token',d.token); document.getElementById('pinScreen').style.display='none'; }
+  else { document.getElementById('pinError').textContent='Incorrect PIN'; document.getElementById('pinInput').value=''; }
+}
+
+// ── Page load ─────────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  const host = window.location.hostname;
+  if(host !== 'localhost' && host !== '127.0.0.1' && !host.includes('ngrok'))
+    document.getElementById('offlineBanner').style.display = 'block';
+  checkPin();
+  setTimeout(() => {
+    const ls = document.getElementById('loadingScreen');
+    ls.style.opacity = '0';
+    ls.style.pointerEvents = 'none';
+    setTimeout(() => {
+      ls.style.display = 'none';
+      if(_lang){ applyLang(_lang); goToPage(2); }
+      else { goToPage(1); }
+    }, 650);
+  }, 2000);
+});
+
+// ── Image preview ─────────────────────────────────────────────────────────
+document.getElementById('imageInput').addEventListener('change', function(){
+  const file = this.files[0]; if(!file) return;
+  document.getElementById('preview').src = URL.createObjectURL(file);
+  document.getElementById('fname').textContent = file.name;
+  document.getElementById('preview-wrap').style.display = 'block';
+});
+
+// ── Mic state machine ─────────────────────────────────────────────────────
+let mediaRecorder, audioChunks=[], _micState='IDLE', _autoSubmitTimer=null, _recTimer=null;
+if(!window.MediaRecorder){ document.getElementById('micBtn').style.display='none'; }
+
+function setMicState(state, extra){
+  const btn=document.getElementById('micBtn'), status=document.getElementById('micStatus');
+  _micState=state; btn.classList.remove('recording','transcribing'); btn.disabled=false;
+  if(state==='IDLE'){ btn.textContent='🎙️'; status.innerHTML=''; }
+  else if(state==='RECORDING'){
+    btn.classList.add('recording'); btn.textContent='⏹️'; let secs=0;
+    status.innerHTML=`<span style="color:#dc2626;font-weight:600">● Recording… 0s</span> <small style="color:#9ca3af">tap to stop</small>`;
+    _recTimer=setInterval(()=>{ secs++; status.innerHTML=`<span style="color:#dc2626;font-weight:600">● Recording… ${secs}s</span> <small style="color:#9ca3af">tap to stop</small>`; },1000);
+  } else if(state==='TRANSCRIBING'){
+    btn.classList.add('transcribing'); btn.disabled=true; btn.textContent='🎙️';
+    status.innerHTML=`<span class="mic-spinner"></span><span>Transcribing…</span>`;
+  } else if(state==='DONE'){
+    btn.textContent='🎙️';
+    const lm={hi:'Hindi',en:'English',ne:'Nepali',bn:'Bengali',ur:'Urdu',mr:'Marathi'};
+    if(window._isMixed && window._detectedLangs && window._detectedLangs.length>1){
+      const langs=window._detectedLangs.map(l=>lm[l]||l).join('+');
+      status.innerHTML=`✅ Mixed: <span class="lang-badge" style="background:#7c3aed;color:#fff">${langs}</span> — submitting in 1.5s <small style="color:#9ca3af">(tap to cancel)</small>`;
+    } else {
+      status.innerHTML=`✅ Detected: <span class="lang-badge">${lm[extra]||extra||'auto'}</span> — submitting in 1.5s <small style="color:#9ca3af">(tap to cancel)</small>`;
+    }
+  } else if(state==='ERROR'){ btn.textContent='🎙️'; status.innerHTML=`<span style="color:#dc2626">${extra||'Error'}</span>`; }
+}
+
+document.getElementById('micBtn').addEventListener('click', async () => {
+  if(_micState==='IDLE'){
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+      mediaRecorder = new MediaRecorder(stream); audioChunks=[];
+      mediaRecorder.ondataavailable = e => { if(e.data.size>0) audioChunks.push(e.data); };
+      mediaRecorder.onstop = async () => {
+        if(_recTimer){clearInterval(_recTimer);_recTimer=null;}
+        setMicState('TRANSCRIBING');
+        const blob=new Blob(audioChunks,{type:'audio/webm'});
+        const fd=new FormData(); fd.append('audio',blob,'rec.webm');
+        if(_lang==='hi') fd.append('hint_lang','hi');
+        try {
+          const r=await fetchWithAuth('/transcribe',{method:'POST',body:fd});
+          const d=await r.json();
+          if(d.text){
+            document.getElementById('symptoms').value=d.text;
+            window._isMixed=d.is_mixed||false; window._detectedLangs=d.detected_languages||[];
+            setMicState('DONE',d.language);
+            _autoSubmitTimer=setTimeout(()=>{ setMicState('IDLE'); document.getElementById('triageForm').dispatchEvent(new Event('submit')); },1500);
+          } else { setMicState('ERROR','Could not transcribe. Please type instead.'); }
+        } catch { setMicState('ERROR','Could not transcribe. Please type instead.'); }
+        stream.getTracks().forEach(t=>t.stop());
+      };
+      mediaRecorder.start(); setMicState('RECORDING');
+      if(_autoSubmitTimer){clearTimeout(_autoSubmitTimer);_autoSubmitTimer=null;}
+    } catch { setMicState('ERROR','Mic access denied'); }
+  } else if(_micState==='RECORDING'){ mediaRecorder.stop(); _micState='STOPPING'; }
+  else if(_micState==='DONE'){ if(_autoSubmitTimer){clearTimeout(_autoSubmitTimer);_autoSubmitTimer=null;} setMicState('IDLE'); }
+});
+
+// ── Triage form submit ────────────────────────────────────────────────────
+document.getElementById('triageForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  if(_autoSubmitTimer){clearTimeout(_autoSubmitTimer);_autoSubmitTimer=null;}
+  const hasSymptoms=document.getElementById('symptoms').value.trim();
+  const hasImage=document.getElementById('imageInput').files.length>0;
+  if(!hasSymptoms && !hasImage){
+    goToPage(3);
+    document.getElementById('result').innerHTML='<div class="clarify-box">Please enter symptoms or upload a photo.</div>';
+    return;
+  }
+  // Show analysing overlay
+  const overlay=document.getElementById('analysingOverlay');
+  overlay.classList.add('show');
+  const msgs=['�� Reading symptoms…','🧠 Gemma 4 analysing…','📋 Applying WHO protocols…','⚕️ Generating assessment…','✅ Almost done…'];
+  let mi=0, elapsed=0;
+  document.getElementById('anMsg').textContent=msgs[0];
+  document.getElementById('anTimer').textContent='0s';
+  const mTimer=setInterval(()=>{ mi=Math.min(mi+1,msgs.length-1); document.getElementById('anMsg').textContent=msgs[mi]; },8000);
+  const tTimer=setInterval(()=>{ elapsed++; document.getElementById('anTimer').textContent=elapsed+'s'; },1000);
+
+  try {
+    const fd=new FormData(this);
+    fd.append('response_lang', _lang||'hi');
+    fd.append('is_mixed', window._isMixed?'true':'false');
+    let data;
+    if(document.getElementById('agentMode').checked){ data=await handleAgentMode(fd); }
+    else { const resp=await fetchWithAuth('/triage',{method:'POST',body:fd}); data=await resp.json(); }
+    overlay.classList.remove('show');
+    clearInterval(mTimer); clearInterval(tTimer);
+    goToPage(3);
+    renderResult(data);
+  } catch(err){
+    overlay.classList.remove('show');
+    clearInterval(mTimer); clearInterval(tTimer);
+    goToPage(3);
+    document.getElementById('result').innerHTML=`<div class="error-box">❌ ${err.message}</div>`;
+  }
+});
+
+// ── TTS ───────────────────────────────────────────────────────────────────
+async function autoSpeak(data){
+  const lang=_lang||'hi';
+  const text=[data.summary||'', data.referral_required?'Referral required. '+(data.referral_reason||''):'', (data.actions||[]).filter(a=>!['save_case','send_alert','ask_followup'].includes(a)).join('. ')].filter(Boolean).join(' ');
+  if(!text.trim()) return;
+  const fd=new FormData(); fd.append('text',text); fd.append('lang',lang);
+  try {
+    const r=await fetchWithAuth('/speak',{method:'POST',body:fd}); const d=await r.json();
+    if(d.url){
+      const p=document.getElementById('audioPlayer'); p.src=d.url; p.style.display='block';
+      p.play().catch(()=>{ const tb=document.createElement('button'); tb.className='speak-btn'; tb.style.cssText='width:100%;margin-top:8px;background:#1b4332;color:white;border:none;padding:12px;border-radius:10px;font-size:1rem;cursor:pointer'; tb.textContent='🔊 Tap to hear result'; tb.onclick=()=>{p.play();tb.remove();}; p.after(tb); });
+    }
+  } catch {}
+}
+async function speakSummary(){ await autoSpeak(window._lastTriage||{}); }
+
+// ── renderResult ──────────────────────────────────────────────────────────
+function renderResult(data){
+  const resultEl=document.getElementById('result');
+  if(!data||data.error){ resultEl.innerHTML=`<div class="error-box">❌ ${data?data.error:'No response'}</div>`; return; }
+  if(data.stage==='assess' && data.followup_question){
+    document.getElementById('agentQuestion').textContent=data.followup_question;
+    document.getElementById('agentReplySection').style.display='block';
+    resultEl.innerHTML=`<div class="clarify-box">🤖 <strong>Agent:</strong> ${data.message||data.followup_question}</div>`;
+    return;
+  }
+  if(data.needs_clarification && !data.triage_level){
+    const qs=(data.clarification_questions||[]).map(q=>`<li>${q}</li>`).join('');
+    resultEl.innerHTML=`<div class="clarify-box"><strong>🤔 More info needed</strong><ul style="margin-top:10px;padding-left:18px;line-height:1.8">${qs}</ul></div>`;
+    return;
+  }
+  const level=data.triage_level||'UNKNOWN';
+  const emoji={GREEN:'🟢',YELLOW:'🟡',RED:'🔴'}[level]||'⚪';
+  const lbl={GREEN:'GREEN — Monitor at home',YELLOW:'YELLOW — Treat & Monitor',RED:'RED — Refer Immediately'}[level]||level;
+  let html='';
+  if(data.auto_upgraded) html+=`<div class="upgraded-badge">⚡ Auto-upgraded by safety rules</div><br/>`;
+  html+=`<span class="triage-badge ${level}">${emoji} ${lbl}</span>`;
+  if(data.image_findings) html+=`<div class="result-section"><h3>🔍 Image Findings</h3><p>${data.image_findings}</p></div>`;
+  if(data.summary) html+=`<div class="result-section"><h3>Summary</h3><p>${data.summary}</p></div>`;
+  if(data.reasoning?.length) html+=`<div class="result-section"><h3>🧠 Why this triage?</h3><ul style="padding-left:16px;line-height:1.8;font-size:0.86rem;color:#374151">${data.reasoning.map(r=>`<li>${r}</li>`).join('')}</ul></div>`;
+  if(data.referral_required) html+=`<div class="referral-box" style="margin-bottom:12px">🚨 <strong>Referral Required</strong>${data.referral_reason?': '+data.referral_reason:''}</div>`;
+  if(data.danger_signs?.length) html+=`<div class="result-section"><h3>⚠ Danger Signs</h3><div class="pill-list">${data.danger_signs.map(s=>`<span class="pill danger">${s}</span>`).join('')}</div></div>`;
+  if(data.differential?.length) html+=`<div class="result-section"><h3>Possible Conditions</h3><div class="pill-list">${data.differential.map(d=>`<span class="pill">${d}</span>`).join('')}</div></div>`;
+  const ca=(data.actions||[]).filter(a=>!['save_case','send_alert','ask_followup'].includes(a));
+  if(ca.length) html+=`<div class="result-section"><h3>Recommended Actions</h3><div class="pill-list">${ca.map(a=>`<span class="pill action">${a}</span>`).join('')}</div></div>`;
+  if(data.drug_suggestion){
+    const d=data.drug_suggestion;
+    html+=`<div style="background:${d.in_kit?'#dcfce7':'#fee2e2'};border:1.5px solid ${d.in_kit?'#86efac':'#fca5a5'};border-radius:10px;padding:12px 14px;margin-bottom:12px"><div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;color:#6b7280;margin-bottom:5px;font-weight:700">💼 ASHA Kit Suggestion</div><strong>${d.in_kit?'💊':'⚠️'} ${d.drug}</strong><br/><span style="font-size:0.83rem;color:#374151">${d.dose}</span></div>`;
+  }
+  if(data.nearest_facilities?.length){
+    const isRed=level==='RED';
+    html+=`<div class="result-section"><h3>🏥 ${isRed?'Refer To':'Nearest Health Facility'}</h3>`;
+    data.nearest_facilities.forEach((f,i)=>{
+      const b24=f.open_24h?'<span style="background:#dcfce7;color:#14532d;border-radius:6px;padding:1px 7px;font-size:0.68rem;font-weight:700;margin-left:4px">24h</span>':'<span style="background:#fef9c3;color:#713f12;border-radius:6px;padding:1px 7px;font-size:0.68rem;font-weight:700;margin-left:4px">Day only</span>';
+      const mb=f.match_reason?`<span style="background:#eff6ff;color:#1e40af;border-radius:6px;padding:1px 7px;font-size:0.68rem;font-weight:600;margin-left:4px">✓ ${f.match_reason}</span>`:'';
+      html+=`<div style="border:1.5px solid ${i===0&&isRed?'#fca5a5':'#e5e7eb'};background:${i===0&&isRed?'rgba(254,226,226,0.3)':'white'};border-radius:10px;padding:11px 13px;margin-bottom:7px"><div style="font-weight:700;font-size:0.93rem">${f.name} ${b24} ${mb}</div><div style="font-size:0.8rem;color:#6b7280;margin-top:3px">${f.type} · <strong>${f.distance_km}km</strong></div><div style="font-size:0.8rem;color:#374151;margin-top:3px">📞 <a href="tel:${f.phone}" style="color:#1b4332;font-weight:600">${f.phone}</a></div><div style="font-size:0.72rem;color:#6b7280;margin-top:3px">${(f.services||[]).join(' · ')}</div></div>`;
+    });
+    html+=`</div>`;
+  }
+  html+=`<div style="margin-top:12px;padding:10px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;font-size:0.73rem;color:#64748b">⚕️ <em>AI-assisted triage only. Consult a health professional. Emergency: 112.</em></div>`;
+  resultEl.innerHTML=html;
+  window._lastTriage=data;
+  window._lastForm={age:document.getElementById('ageInput').value, sex:document.getElementById('sexSelect').value, body_part:document.getElementById('bodyPartSelect').value, symptoms:document.getElementById('symptoms').value};
+  document.getElementById('audioSection').style.display='block';
+  document.getElementById('alertSection').style.display='block';
+  document.getElementById('handoffSection').style.display='block';
+  document.getElementById('redAutoAlert').style.display=level==='RED'?'block':'none';
+  document.getElementById('yellowConfirmAlert').style.display=level==='YELLOW'?'block':'none';
+  autoSpeak(data);
+}
+
+// ── Agent ─────────────────────────────────────────────────────────────────
+let _agentSessionId=null;
+async function handleAgentMode(fd){
+  const resp=await fetchWithAuth('/agent/start',{method:'POST',body:fd});
+  const data=await resp.json(); if(data.error) throw new Error(data.error);
+  _agentSessionId=data.session_id; return data;
+}
+async function sendAgentReply(){
+  const reply=document.getElementById('agentReplyInput').value.trim(); if(!reply) return;
+  document.getElementById('agentReplyInput').value='';
+  document.getElementById('agentReplySection').style.display='none';
+  const fd=new FormData(); fd.append('session_id',_agentSessionId); fd.append('reply',reply);
+  try { const resp=await fetchWithAuth('/agent/reply',{method:'POST',body:fd}); renderResult(await resp.json()); }
+  catch(e){ document.getElementById('result').innerHTML=`<div class="error-box">❌ ${e.message}</div>`; }
+}
+
+// ── Alert ─────────────────────────────────────────────────────────────────
+async function sendAlert(){
+  const btn=document.getElementById('alertBtn'), status=document.getElementById('alertStatus');
+  const t=window._lastTriage||{}, f=window._lastForm||{};
+  const name=document.getElementById('alertName').value.trim();
+  const phone=document.getElementById('alertPhone').value.trim();
+  const address=document.getElementById('alertAddress').value.trim();
+  if(!name||!phone||!address){status.textContent='⚠ Fill in Name, Phone and Address.';status.style.color='#dc2626';return;}
+  btn.disabled=true; btn.textContent='Sending…'; status.textContent='';
+  const fd=new FormData();
+  fd.append('patient_name',name); fd.append('patient_phone',phone); fd.append('patient_address',address);
+  fd.append('age',f.age||''); fd.append('sex',f.sex||''); fd.append('body_part',f.body_part||'');
+  fd.append('symptoms',f.symptoms||''); fd.append('triage_level',t.triage_level||'');
+  fd.append('summary',t.summary||''); fd.append('differential',(t.differential||[]).join(', '));
+  fd.append('actions',(t.actions||[]).join('\n• ')); fd.append('referral_reason',t.referral_reason||'');
+  fd.append('danger_signs',(t.danger_signs||[]).join(', '));
+  try {
+    const r=await fetchWithAuth('/alert',{method:'POST',body:fd}); const d=await r.json();
+    if(d.status==='sent'){
+      btn.textContent='✅ Alert Sent'; btn.style.background='#16a34a';
+      status.textContent='Health authority notified. Follow-up reminder will be sent in 48h.'; status.style.color='#16a34a';
+      const fd2=new FormData(); fd2.append('age',f.age||''); fd2.append('sex',f.sex||''); fd2.append('symptoms',f.symptoms||''); fd2.append('language',_lang||'hi'); fd2.append('worker_phone',phone); fd2.append('patient_name',name);
+      fetchWithAuth('/triage',{method:'POST',body:fd2}).catch(()=>{});
+    } else throw new Error(d.error||'Unknown error');
+  } catch(e){ btn.disabled=false; btn.textContent='🚨 Notify Health Authority / ASHA Worker'; status.textContent='❌ Failed: '+e.message; status.style.color='#dc2626'; }
+}
+
+// ── Handoff ───────────────────────────────────────────────────────────────
+async function generateHandoff(){
+  const t=window._lastTriage||{}, f=window._lastForm||{};
+  const fd=new FormData();
+  fd.append('patient_name',document.getElementById('alertName').value||'');
+  fd.append('patient_age',f.age||''); fd.append('patient_sex',f.sex||'');
+  fd.append('patient_phone',document.getElementById('alertPhone').value||'');
+  fd.append('patient_address',document.getElementById('alertAddress').value||'');
+  fd.append('symptoms',f.symptoms||''); fd.append('triage_level',t.triage_level||'');
+  fd.append('summary',t.summary||''); fd.append('image_findings',t.image_findings||'');
+  fd.append('differential',(t.differential||[]).join(', '));
+  fd.append('actions',(t.actions||[]).filter(a=>!['save_case','send_alert','ask_followup'].includes(a)).join('\n'));
+  fd.append('danger_signs',(t.danger_signs||[]).join(', ')); fd.append('referral_reason',t.referral_reason||'');
+  fd.append('worker_name',document.getElementById('workerName').value||'');
+  try {
+    const r=await fetchWithAuth('/handoff',{method:'POST',body:fd}); const d=await r.json();
+    document.getElementById('handoffText').textContent=d.report;
+    document.getElementById('handoffResult').style.display='block';
+  } catch(e){ alert('Could not generate report: '+e.message); }
+}
+function copyHandoff(){
+  navigator.clipboard.writeText(document.getElementById('handoffText').textContent).then(()=>{
+    const el=document.getElementById('handoffCopied'); el.style.display='block'; setTimeout(()=>el.style.display='none',2000);
+  });
+}
+</script>
+</body>
+</html>

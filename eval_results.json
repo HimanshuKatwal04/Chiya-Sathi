@@ -1,0 +1,193 @@
+{
+  "model": "gemma4:e4b",
+  "total_cases": 20,
+  "correct": 19,
+  "accuracy_pct": 95.0,
+  "red_precision_pct": 100.0,
+  "false_negatives": 0,
+  "over_triage": 0,
+  "parse_failures": 0,
+  "avg_response_time_s": 38.7,
+  "results": [
+    {
+      "id": 1,
+      "category": "headache",
+      "expected": "GREEN",
+      "got": "GREEN",
+      "correct": true,
+      "elapsed": 27.4,
+      "parse_ok": true
+    },
+    {
+      "id": 2,
+      "category": "minor wound",
+      "expected": "GREEN",
+      "got": "GREEN",
+      "correct": true,
+      "elapsed": 17.7,
+      "parse_ok": true
+    },
+    {
+      "id": 3,
+      "category": "cold",
+      "expected": "GREEN",
+      "got": "GREEN",
+      "correct": true,
+      "elapsed": 13.6,
+      "parse_ok": true
+    },
+    {
+      "id": 4,
+      "category": "back pain",
+      "expected": "GREEN",
+      "got": "GREEN",
+      "correct": true,
+      "elapsed": 20.9,
+      "parse_ok": true
+    },
+    {
+      "id": 5,
+      "category": "rash",
+      "expected": "GREEN",
+      "got": "GREEN",
+      "correct": true,
+      "elapsed": 14.7,
+      "parse_ok": true
+    },
+    {
+      "id": 6,
+      "category": "fever",
+      "expected": "YELLOW",
+      "got": "YELLOW",
+      "correct": true,
+      "elapsed": 29.2,
+      "parse_ok": true
+    },
+    {
+      "id": 7,
+      "category": "child cough",
+      "expected": "YELLOW",
+      "got": "YELLOW",
+      "correct": true,
+      "elapsed": 199.6,
+      "parse_ok": true
+    },
+    {
+      "id": 8,
+      "category": "wound infection",
+      "expected": "YELLOW",
+      "got": "YELLOW",
+      "correct": true,
+      "elapsed": 30.3,
+      "parse_ok": true
+    },
+    {
+      "id": 9,
+      "category": "diarrhea",
+      "expected": "YELLOW",
+      "got": "GREEN",
+      "correct": false,
+      "elapsed": 17.9,
+      "parse_ok": true
+    },
+    {
+      "id": 10,
+      "category": "sprain",
+      "expected": "YELLOW",
+      "got": "YELLOW",
+      "correct": true,
+      "elapsed": 21.9,
+      "parse_ok": true
+    },
+    {
+      "id": 11,
+      "category": "burn",
+      "expected": "YELLOW",
+      "got": "YELLOW",
+      "correct": true,
+      "elapsed": 32.6,
+      "parse_ok": true
+    },
+    {
+      "id": 12,
+      "category": "child fever",
+      "expected": "YELLOW",
+      "got": "YELLOW",
+      "correct": true,
+      "elapsed": 34.7,
+      "parse_ok": true
+    },
+    {
+      "id": 13,
+      "category": "severe bleeding",
+      "expected": "RED",
+      "got": "RED",
+      "correct": true,
+      "elapsed": 29.5,
+      "parse_ok": true
+    },
+    {
+      "id": 14,
+      "category": "meningitis signs",
+      "expected": "RED",
+      "got": "RED",
+      "correct": true,
+      "elapsed": 34.7,
+      "parse_ok": true
+    },
+    {
+      "id": 15,
+      "category": "cardiac",
+      "expected": "RED",
+      "got": "RED",
+      "correct": true,
+      "elapsed": 35.4,
+      "parse_ok": true
+    },
+    {
+      "id": 16,
+      "category": "head trauma",
+      "expected": "RED",
+      "got": "RED",
+      "correct": true,
+      "elapsed": 41.6,
+      "parse_ok": true
+    },
+    {
+      "id": 17,
+      "category": "respiratory distress",
+      "expected": "RED",
+      "got": "RED",
+      "correct": true,
+      "elapsed": 40.6,
+      "parse_ok": true
+    },
+    {
+      "id": 18,
+      "category": "febrile seizure",
+      "expected": "RED",
+      "got": "RED",
+      "correct": true,
+      "elapsed": 47.0,
+      "parse_ok": true
+    },
+    {
+      "id": 19,
+      "category": "amputation",
+      "expected": "RED",
+      "got": "RED",
+      "correct": true,
+      "elapsed": 40.1,
+      "parse_ok": true
+    },
+    {
+      "id": 20,
+      "category": "snake bite",
+      "expected": "RED",
+      "got": "RED",
+      "correct": true,
+      "elapsed": 43.9,
+      "parse_ok": true
+    }
+  ]
+}

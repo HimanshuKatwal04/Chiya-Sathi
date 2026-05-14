@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Nagrakata PHC",
+    "type": "PHC",
+    "district": "Jalpaiguri",
+    "distance_km": 3,
+    "phone": "03563-255012",
+    "services": ["OPD", "Basic Lab", "Maternity", "Immunisation", "Wound Dressing"],
+    "open_24h": false,
+    "hours": "9am–4pm Mon–Sat"
+  },
+  {
+    "name": "Chalsa PHC",
+    "type": "PHC",
+    "district": "Jalpaiguri",
+    "distance_km": 8,
+    "phone": "03563-262011",
+    "services": ["OPD", "Basic Lab", "Immunisation", "Wound Dressing"],
+    "open_24h": false,
+    "hours": "9am–4pm Mon–Sat"
+  },
+  {
+    "name": "Kurseong Sub-Divisional Hospital",
+    "type": "SDH",
+    "district": "Darjeeling",
+    "distance_km": 6,
+    "phone": "0354-2344026",
+    "services": ["Emergency", "X-Ray", "Blood Test", "Maternity", "Surgery", "Wound Care"],
+    "open_24h": true,
+    "hours": "24h Emergency"
+  },
+  {
+    "name": "Malbazar Rural Hospital",
+    "type": "Rural Hospital",
+    "district": "Jalpaiguri",
+    "distance_km": 12,
+    "phone": "03563-255100",
+    "services": ["Emergency", "Surgery", "Blood Test", "X-Ray", "Maternity", "Wound Care"],
+    "open_24h": true,
+    "hours": "24h Emergency"
+  },
+  {
+    "name": "Bagdogra CHC",
+    "type": "CHC",
+    "district": "Darjeeling",
+    "distance_km": 28,
+    "phone": "0353-2699012",
+    "services": ["Emergency", "Surgery", "Blood Test", "X-Ray", "Maternity", "SNCU"],
+    "open_24h": true,
+    "hours": "24h Emergency"
+  },
+  {
+    "name": "Darjeeling District Hospital",
+    "type": "District Hospital",
+    "district": "Darjeeling",
+    "distance_km": 18,
+    "phone": "0354-2252230",
+    "services": ["ICU", "Surgery", "Blood Bank", "X-Ray", "CT Scan", "SNCU", "Emergency", "Dialysis", "Orthopaedics"],
+    "open_24h": true,
+    "hours": "24h Emergency"
+  },
+  {
+    "name": "Siliguri District Hospital",
+    "type": "District Hospital",
+    "district": "Darjeeling",
+    "distance_km": 35,
+    "phone": "0353-2512985",
+    "services": ["ICU", "Surgery", "Blood Bank", "CT Scan", "MRI", "SNCU", "Dialysis", "Emergency", "Cardiac Care", "Orthopaedics", "Burns Unit"],
+    "open_24h": true,
+    "hours": "24h Emergency"
+  },
+  {
+    "name": "North Bengal Medical College",
+    "type": "Medical College Hospital",
+    "district": "Darjeeling",
+    "distance_km": 38,
+    "phone": "0353-2576368",
+    "services": ["ICU", "Surgery", "Blood Bank", "CT Scan", "MRI", "SNCU", "Dialysis", "Emergency", "Cardiac Care", "Burns Unit", "Neurology", "Orthopaedics"],
+    "open_24h": true,
+    "hours": "24h Emergency"
+  }
+]

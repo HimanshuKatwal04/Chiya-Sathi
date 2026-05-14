@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Jholey Doctor — Supervisor Dashboard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f1f14;color:#f9fafb;min-height:100vh;padding:24px 16px}
+h1{color:#6ee7b7;font-size:1.6rem;margin-bottom:4px}
+.sub{color:#9ca3af;font-size:0.85rem;margin-bottom:28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px}
+.card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:20px}
+.card h2{font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:#9ca3af;margin-bottom:12px}
+.stat{font-size:2.2rem;font-weight:700;color:#fff}
+.stat-sub{font-size:0.8rem;color:#6b7280;margin-top:2px}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.75rem;font-weight:700}
+.CRITICAL{background:#7f1d1d;color:#fca5a5}
+.HIGH{background:#7c2d12;color:#fdba74}
+.MEDIUM{background:#713f12;color:#fde047}
+table{width:100%;border-collapse:collapse;font-size:0.88rem}
+th{text-align:left;padding:10px 12px;color:#9ca3af;font-weight:600;font-size:0.75rem;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.08)}
+td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.05);color:#e5e7eb}
+tr:hover td{background:rgba(255,255,255,0.03)}
+.red{color:#f87171}.yellow{color:#fbbf24}.green{color:#4ade80}
+.alert-card{background:rgba(220,38,38,0.12);border:1px solid rgba(220,38,38,0.3);border-radius:12px;padding:16px;margin-bottom:12px}
+.alert-card h3{color:#fca5a5;font-size:0.95rem;margin-bottom:6px}
+.alert-card p{color:#fcd5d5;font-size:0.82rem;line-height:1.5}
+.rec{background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.2);border-radius:8px;padding:10px 12px;margin-top:8px;font-size:0.82rem;color:#fde68a}
+.refresh{background:#1b4332;color:#6ee7b7;border:1px solid #166534;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:0.85rem;margin-bottom:20px;margin-right:8px}
+.refresh:hover{background:#166534}
+.unresolved{background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.2);border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:0.82rem;color:#fde68a}
+.village-bar{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.village-bar-label{width:120px;font-size:0.8rem;color:#e5e7eb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.village-bar-track{flex:1;background:rgba(255,255,255,0.08);border-radius:4px;height:18px;position:relative}
+.village-bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:6px;font-size:0.72rem;font-weight:600;min-width:24px}
+.bar-red{background:rgba(248,113,113,0.7)}
+.bar-yellow{background:rgba(251,191,36,0.7)}
+.bar-green{background:rgba(74,222,128,0.5)}
+.empty{color:#6b7280;font-style:italic;padding:20px 0}
+.followup-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.85rem}
+.followup-row:last-child{border-bottom:none}
+.pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.72rem;font-weight:700}
+.pill-yes{background:rgba(74,222,128,0.2);color:#4ade80}
+.pill-no{background:rgba(248,113,113,0.2);color:#f87171}
+.pill-pending{background:rgba(251,191,36,0.2);color:#fbbf24}
+.pill-unsent{background:rgba(156,163,175,0.2);color:#9ca3af}
+.last-updated{font-size:0.72rem;color:#6b7280;margin-left:12px}
+</style>
+</head>
+<body>
+<h1>🩺 Jholey Doctor</h1>
+<div class="sub">Supervisor Dashboard — Community Health Intelligence</div>
+<button class="refresh" onclick="loadAll()">↻ Refresh</button>
+<span class="last-updated" id="lastUpdated"></span>
+
+<div class="grid">
+  <div class="card"><h2>Total Cases</h2><div class="stat" id="totalCases">—</div><div class="stat-sub">all time</div></div>
+  <div class="card"><h2>🔴 RED Cases</h2><div class="stat red" id="redCases">—</div><div class="stat-sub">immediate referral</div></div>
+  <div class="card"><h2>Referrals</h2><div class="stat yellow" id="referrals">—</div><div class="stat-sub">requiring hospital</div></div>
+  <div class="card"><h2>Outbreak Alerts</h2><div class="stat" id="outbreakCount">—</div><div class="stat-sub">active signals</div></div>
+  <div class="card"><h2>⏰ Unresolved &gt;48h</h2><div class="stat yellow" id="unresolvedCount">—</div><div class="stat-sub">need follow-up</div></div>
+  <div class="card"><h2>✅ Follow-ups Resolved</h2><div class="stat green" id="followupResolved">—</div><div class="stat-sub">worker confirmed OK</div></div>
+</div>
+
+<div class="card" style="margin-bottom:20px">
+  <h2>🚨 Active Outbreak Signals</h2>
+  <div id="outbreakAlerts" style="margin-top:12px"><div style="color:#6b7280;font-style:italic">Scanning…</div></div>
+</div>
+
+<div class="card" style="margin-bottom:20px">
+  <h2>🗺️ Village Heatmap — Cases by Garden</h2>
+  <div id="villageHeatmap" style="margin-top:12px"><div style="color:#6b7280;font-style:italic">Loading…</div></div>
+</div>
+
+<div class="card" style="margin-bottom:20px">
+  <h2>⏰ Unresolved Cases (&gt;48h, no follow-up)</h2>
+  <div id="unresolvedList" style="margin-top:12px"><div style="color:#6b7280;font-style:italic">Loading…</div></div>
+</div>
+
+<div class="card" style="margin-bottom:20px">
+  <h2>📱 Follow-up Reminder Status</h2>
+  <div id="followupStatus" style="margin-top:12px"><div style="color:#6b7280;font-style:italic">Loading…</div></div>
+</div>
+
+<div class="card">
+  <h2>Cases by Garden</h2>
+  <table>
+    <thead><tr><th>Garden</th><th>Total</th><th>🔴 RED</th><th>🟡 YELLOW</th><th>🟢 GREEN</th><th>Referrals</th></tr></thead>
+    <tbody id="gardenTable"><tr><td colspan="6" style="color:#6b7280;font-style:italic;padding:20px 0">Loading…</td></tr></tbody>
+  </table>
+</div>
+
+<script>
+async function loadAll() {
+  try {
+    const [scan, stats, cases, followup] = await Promise.all([
+      fetch('/api/v1/outbreak/scan').then(r=>r.json()),
+      fetch('/api/v1/outbreak/stats').then(r=>r.json()),
+      fetch('/api/v1/cases?limit=500').then(r=>r.json()),
+      fetch('/api/v1/followup/status').then(r=>r.json()).catch(()=>null),
+    ]);
+
+    // summary stats
+    const total = cases.length;
+    const red   = cases.filter(c=>c.triage_level==='RED').length;
+    const refs  = cases.filter(c=>c.referral_required).length;
+    const cutoff = Date.now() - 48*60*60*1000;
+    const unresolved = cases.filter(c => !c.reviewed && new Date(c.received_at).getTime() < cutoff);
+    document.getElementById('totalCases').textContent = total;
+    document.getElementById('redCases').textContent   = red;
+    document.getElementById('referrals').textContent  = refs;
+    document.getElementById('outbreakCount').textContent = scan.total_alerts || 0;
+    document.getElementById('unresolvedCount').textContent = unresolved.length;
+    document.getElementById('followupResolved').textContent = followup ? followup.resolved_yes : '—';
+    document.getElementById('lastUpdated').textContent = 'Updated: ' + new Date().toLocaleTimeString();
+
+    // outbreak alerts
+    const ob = document.getElementById('outbreakAlerts');
+    if (!scan.outbreak_alerts || !scan.outbreak_alerts.length) {
+      ob.innerHTML = '<div style="color:#6b7280;font-style:italic">✅ No active outbreak signals</div>';
+    } else {
+      ob.innerHTML = scan.outbreak_alerts.map(a => `
+        <div class="alert-card">
+          <h3><span class="badge ${a.severity}">${a.severity}</span> &nbsp;${a.alert_message}</h3>
+          <p>Score: <strong>${a.outbreak_score}</strong> &nbsp;|&nbsp;
+             RED: <strong class="red">${a.red_cases}</strong> &nbsp;|&nbsp;
+             YELLOW: <strong class="yellow">${a.yellow_cases}</strong> &nbsp;|&nbsp;
+             Trend: <strong>${a.trend || '—'}</strong> &nbsp;|&nbsp;
+             Cluster: <strong>${a.symptom_cluster}</strong></p>
+          <div class="rec">💡 ${a.recommendation}</div>
+        </div>`).join('');
+    }
+
+    // village heatmap
+    const maxTotal = Math.max(...(stats.map ? stats.map(r=>r.total) : [1]), 1);
+    const heatmap = document.getElementById('villageHeatmap');
+    if (!stats.length) {
+      heatmap.innerHTML = '<div style="color:#6b7280;font-style:italic">No data</div>';
+    } else {
+      heatmap.innerHTML = stats.slice(0,10).map(r => {
+        const pct = Math.round((r.total / maxTotal) * 100);
+        const color = r.red > 0 ? 'bar-red' : r.yellow > 0 ? 'bar-yellow' : 'bar-green';
+        return `<div class="village-bar">
+          <div class="village-bar-label" title="${r.garden}">${r.garden}</div>
+          <div class="village-bar-track">
+            <div class="village-bar-fill ${color}" style="width:${Math.max(pct,4)}%">${r.total}</div>
+          </div>
+          <span style="font-size:0.72rem;color:#9ca3af;width:60px;text-align:right">
+            <span class="red">${r.red}R</span> <span class="yellow">${r.yellow}Y</span>
+          </span>
+        </div>`;
+      }).join('');
+    }
+
+    // unresolved cases
+    const unresolvedEl = document.getElementById('unresolvedList');
+    if (!unresolved.length) {
+      unresolvedEl.innerHTML = '<div style="color:#6b7280;font-style:italic">✅ All cases reviewed</div>';
+    } else {
+      unresolvedEl.innerHTML = unresolved.slice(0,10).map(c => {
+        const age = Math.round((Date.now() - new Date(c.received_at).getTime()) / 3600000);
+        const lvl = {RED:'🔴',YELLOW:'🟡',GREEN:'🟢'}[c.triage_level]||'⚪';
+        return `<div class="unresolved">
+          ${lvl} <strong>${c.garden_name || '—'}</strong> · ${c.village || '—'} · ${age}h ago
+          ${c.referral_required ? ' · <span style="color:#f87171">Referral needed</span>' : ''}
+        </div>`;
+      }).join('');
+    }
+
+    // follow-up status
+    const fuEl = document.getElementById('followupStatus');
+    if (!followup) {
+      fuEl.innerHTML = '<div style="color:#6b7280;font-style:italic">Follow-up data unavailable</div>';
+    } else {
+      fuEl.innerHTML = `
+        <div class="followup-row"><span>Total YELLOW cases</span><span>${followup.total_yellow}</span></div>
+        <div class="followup-row"><span>Reminders sent</span><span>${followup.reminders_sent}</span></div>
+        <div class="followup-row"><span>✅ Resolved (worker replied YES)</span><span class="pill pill-yes">${followup.resolved_yes}</span></div>
+        <div class="followup-row"><span>❌ Not resolved (worker replied NO)</span><span class="pill pill-no">${followup.not_resolved_no}</span></div>
+        <div class="followup-row"><span>⏳ Awaiting reply</span><span class="pill pill-pending">${followup.awaiting_reply}</span></div>
+        <div class="followup-row"><span>📤 Pending reminder (not sent yet)</span><span class="pill pill-unsent">${followup.pending_reminder_unsent}</span></div>
+        <div class="followup-row"><span>🚨 Escalated to supervisor</span><span class="pill pill-no">${followup.escalated}</span></div>
+      `;
+    }
+
+    // garden table
+    const tbody = document.getElementById('gardenTable');
+    if (!stats.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="color:#6b7280;font-style:italic;padding:20px 0">No cases yet</td></tr>';
+    } else {
+      tbody.innerHTML = stats.map(r => `
+        <tr>
+          <td>${r.garden}</td>
+          <td>${r.total}</td>
+          <td class="red">${r.red}</td>
+          <td class="yellow">${r.yellow}</td>
+          <td class="green">${r.green}</td>
+          <td>${r.referrals}</td>
+        </tr>`).join('');
+    }
+  } catch(e) {
+    console.error('Dashboard load error:', e);
+  }
+}
+loadAll();
+setInterval(loadAll, 30000); // auto-refresh every 30s
+</script>
+</body>
+</html>

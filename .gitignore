@@ -1,0 +1,36 @@
+# Model weights — too large for git
+android/app/src/main/assets/*.bin
+android/app/src/main/assets/*.tflite
+android/app/src/main/assets/*.task
+
+# Android build
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+
+# Python
+backend/__pycache__/
+backend/**/__pycache__/
+backend/.venv/
+backend/*.egg-info/
+backend/.env
+
+# Docker volumes
+backend/pgdata/
+
+# SQLite database
+backend/*.db
+webapp/*.db
+
+# Python cache
+webapp/__pycache__/
+webapp/**/__pycache__/
+__pycache__/
+*.pyc
+
+# IDE
+.idea/
+*.iml
+.DS_Store
+webapp/.env

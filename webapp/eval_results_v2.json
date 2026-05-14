@@ -1,0 +1,730 @@
+{
+  "timestamp": "2026-04-28T07:52:59.486680",
+  "total": 75,
+  "passed": 0,
+  "accuracy": 0.0,
+  "red_missed": 27,
+  "category_breakdown": {
+    "keyword_anchoring": {
+      "total": 10,
+      "passed": 0
+    },
+    "anorectal": {
+      "total": 4,
+      "passed": 0
+    },
+    "urinary": {
+      "total": 5,
+      "passed": 0
+    },
+    "danger_signs": {
+      "total": 8,
+      "passed": 0
+    },
+    "paediatric": {
+      "total": 5,
+      "passed": 0
+    },
+    "multilingual": {
+      "total": 5,
+      "passed": 0
+    },
+    "skin": {
+      "total": 4,
+      "passed": 0
+    },
+    "obstetric": {
+      "total": 4,
+      "passed": 0
+    },
+    "green": {
+      "total": 5,
+      "passed": 0
+    },
+    "edge": {
+      "total": 15,
+      "passed": 0
+    },
+    "asha_scenario": {
+      "total": 10,
+      "passed": 0
+    }
+  },
+  "cases": [
+    {
+      "id": 1,
+      "category": "keyword_anchoring",
+      "description": "Burning on sphincter \u2192 anorectal, not burn injury",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 2,
+      "category": "keyword_anchoring",
+      "description": "Burning when urinating \u2192 UTI, not burn",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 3,
+      "category": "keyword_anchoring",
+      "description": "Shooting pain in chest \u2192 cardiac, not gunshot",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 4,
+      "category": "keyword_anchoring",
+      "description": "Stabbing pain in abdomen \u2192 abdominal pain, not stab wound",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 5,
+      "category": "keyword_anchoring",
+      "description": "Tearing pain in back \u2192 musculoskeletal, not laceration",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 6,
+      "category": "keyword_anchoring",
+      "description": "Pins and needles in leg \u2192 neurological, not foreign body",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 7,
+      "category": "keyword_anchoring",
+      "description": "Pressure in chest \u2192 cardiac, not physical compression",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 8,
+      "category": "keyword_anchoring",
+      "description": "Burning stomach \u2192 gastric, not burn injury",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 9,
+      "category": "keyword_anchoring",
+      "description": "Burning throat \u2192 pharyngitis/reflux, not burn",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 10,
+      "category": "keyword_anchoring",
+      "description": "Cutting pain in knee \u2192 musculoskeletal, not laceration",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 11,
+      "category": "anorectal",
+      "description": "Rectal bleeding \u2192 hemorrhoids/fissure",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 12,
+      "category": "anorectal",
+      "description": "Itching anus \u2192 perianal",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 13,
+      "category": "anorectal",
+      "description": "Burning after passing stool \u2192 fissure",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 14,
+      "category": "anorectal",
+      "description": "Swelling near anus \u2192 abscess",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 15,
+      "category": "urinary",
+      "description": "Classic UTI female",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 16,
+      "category": "urinary",
+      "description": "UTI in Hindi \u2014 dysuria",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 17,
+      "category": "urinary",
+      "description": "Blood in urine",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 18,
+      "category": "urinary",
+      "description": "Penile discharge \u2192 STI",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 19,
+      "category": "urinary",
+      "description": "Urinary retention",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 20,
+      "category": "danger_signs",
+      "description": "Unconscious patient",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 21,
+      "category": "danger_signs",
+      "description": "Convulsion in child",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 22,
+      "category": "danger_signs",
+      "description": "Heavy bleeding after delivery",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 23,
+      "category": "danger_signs",
+      "description": "Breathing difficulty \u2014 blue lips",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 24,
+      "category": "danger_signs",
+      "description": "Child not waking \u2014 meningitis signs",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 25,
+      "category": "danger_signs",
+      "description": "Amputation \u2014 finger cut off",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 26,
+      "category": "danger_signs",
+      "description": "Anaphylaxis after bee sting",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 27,
+      "category": "danger_signs",
+      "description": "Diabetic \u2014 not waking",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 28,
+      "category": "paediatric",
+      "description": "Diarrhea in child under 5 \u2192 minimum YELLOW",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 29,
+      "category": "paediatric",
+      "description": "Fever in newborn \u2192 RED",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 30,
+      "category": "paediatric",
+      "description": "Child not feeding \u2014 danger sign",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 31,
+      "category": "paediatric",
+      "description": "Mild fever in 7 year old \u2014 GREEN if no other signs",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "GREEN",
+      "got": "ERROR"
+    },
+    {
+      "id": 32,
+      "category": "paediatric",
+      "description": "Diarrhea 3x/day any age \u2192 YELLOW",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 33,
+      "category": "multilingual",
+      "description": "Hindi \u2014 bukhar with body ache",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 34,
+      "category": "multilingual",
+      "description": "Hinglish \u2014 chest pain with sweating",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 35,
+      "category": "multilingual",
+      "description": "Bengali \u2014 peshab jalan",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 36,
+      "category": "multilingual",
+      "description": "Nepali \u2014 diarrhea with vomiting",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 37,
+      "category": "multilingual",
+      "description": "Sadri \u2014 fever and cough",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 38,
+      "category": "skin",
+      "description": "Burning skin rash \u2014 not burn injury",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 39,
+      "category": "skin",
+      "description": "Actual burn from hot water \u2014 correctly identify",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 40,
+      "category": "skin",
+      "description": "Scabies \u2014 itching at night",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 41,
+      "category": "skin",
+      "description": "Infected wound with pus",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 42,
+      "category": "obstetric",
+      "description": "Pregnancy with bleeding \u2192 RED",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 43,
+      "category": "obstetric",
+      "description": "Vaginal discharge \u2192 STI workup",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 44,
+      "category": "obstetric",
+      "description": "Eclampsia signs",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 45,
+      "category": "obstetric",
+      "description": "Normal pregnancy complaint \u2014 morning sickness",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "GREEN",
+      "got": "ERROR"
+    },
+    {
+      "id": 46,
+      "category": "green",
+      "description": "Common cold, mild, adult",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "GREEN",
+      "got": "ERROR"
+    },
+    {
+      "id": 47,
+      "category": "green",
+      "description": "Minor cut \u2014 small superficial",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "GREEN",
+      "got": "ERROR"
+    },
+    {
+      "id": 48,
+      "category": "green",
+      "description": "Mild headache, no red flags",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "GREEN",
+      "got": "ERROR"
+    },
+    {
+      "id": 49,
+      "category": "green",
+      "description": "Insect bite, no allergy signs",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "GREEN",
+      "got": "ERROR"
+    },
+    {
+      "id": 50,
+      "category": "green",
+      "description": "Mild constipation",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "GREEN",
+      "got": "ERROR"
+    },
+    {
+      "id": 51,
+      "category": "edge",
+      "description": "Chest pain in young \u2014 musculoskeletal",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 52,
+      "category": "edge",
+      "description": "Abdominal pain right lower \u2014 appendicitis",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 53,
+      "category": "edge",
+      "description": "Diabetic foot ulcer",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 54,
+      "category": "edge",
+      "description": "Snake bite",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 55,
+      "category": "edge",
+      "description": "Malaria suspicion",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 56,
+      "category": "edge",
+      "description": "Dengue suspicion",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 57,
+      "category": "edge",
+      "description": "Ear pain with discharge",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 58,
+      "category": "edge",
+      "description": "Eye pain with vision change",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 59,
+      "category": "edge",
+      "description": "Psychiatric \u2014 suicidal",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 60,
+      "category": "edge",
+      "description": "Heat stroke",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 61,
+      "category": "edge",
+      "description": "Near drowning",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 62,
+      "category": "edge",
+      "description": "Burning feet at night \u2192 neuropathy",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 63,
+      "category": "edge",
+      "description": "Burning eyes from smoke",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 64,
+      "category": "edge",
+      "description": "Chest burning \u2192 acid reflux",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 65,
+      "category": "edge",
+      "description": "Lower back pain \u2014 renal colic",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 66,
+      "category": "asha_scenario",
+      "description": "Tea garden worker \u2014 pesticide exposure",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 67,
+      "category": "asha_scenario",
+      "description": "Elderly woman \u2014 fall with hip pain",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 68,
+      "category": "asha_scenario",
+      "description": "Newborn jaundice",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 69,
+      "category": "asha_scenario",
+      "description": "TB suspect",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 70,
+      "category": "asha_scenario",
+      "description": "Acute abdomen \u2014 typhoid perforation",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 71,
+      "category": "asha_scenario",
+      "description": "Child malnutrition",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 72,
+      "category": "asha_scenario",
+      "description": "COVID-like symptoms \u2014 mild",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    },
+    {
+      "id": 73,
+      "category": "asha_scenario",
+      "description": "Hypertensive crisis",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 74,
+      "category": "asha_scenario",
+      "description": "Alcohol withdrawal",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "RED",
+      "got": "ERROR"
+    },
+    {
+      "id": 75,
+      "category": "asha_scenario",
+      "description": "Abscess requiring drainage",
+      "passed": false,
+      "error": "All connection attempts failed",
+      "expected": "YELLOW",
+      "got": "ERROR"
+    }
+  ]
+}
